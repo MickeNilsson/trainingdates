@@ -66,9 +66,10 @@ function Home(props) {
 
         e.stopPropagation();
         e.preventDefault();
-       
+
         const params_o = {
-            fields: 'firstname,lastname,country'
+            fields: 'firstname,lastname,country',
+            mygender: member.gender
         };
 
         if(toAge) {
@@ -77,10 +78,6 @@ function Home(props) {
 
         if(fromAge) {
             params_o.tobirthdate = getPastDateISO(fromAge);
-        }
-
-        if(myGender !== 'any') {
-            params_o.mygender = myGender;
         }
 
         if(theirGender !== 'any') {
@@ -279,7 +276,7 @@ function Home(props) {
 
                             <Form autoComplete='off'>
 
-                                <Form.Group className='mb-3'
+                                {/* <Form.Group className='mb-3'
                                     as={Row}
                                     controlId='choose-your-gender'
                                 >
@@ -307,7 +304,7 @@ function Home(props) {
 
                                     </Col>
 
-                                </Form.Group>
+                                </Form.Group> */}
 
                                 <Form.Group as={Row} className="mb-3" controlId="choose-gender">
 

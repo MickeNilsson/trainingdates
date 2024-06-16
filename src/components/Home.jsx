@@ -344,7 +344,7 @@ function Home(props) {
 
                                     </Form.Label>
 
-                                    <Col sm='3' style={{ paddingRight: 0 }}>
+                                    <Col sm='3'>
 
                                         <Form.Select size='sm' onChange={(e) => setFromAge(e.target.value)}>
 
@@ -363,7 +363,7 @@ function Home(props) {
                                         to
                                     </Form.Label>
 
-                                    <Col sm='3' style={{ paddingLeft: 0 }}>
+                                    <Col sm='3'>
 
                                         <Form.Select size='sm' onChange={(e) => setToAge(e.target.value)}>
 

@@ -11,13 +11,13 @@ function Home(props) {
 
     const [countries, setCountries] = useState([]);
 
-    const [country, setCountry] = useState('');
+    const [country, setCountry] = useState('any');
 
     const [showModal, setShowModal] = useState(false);
 
-    const [theirGender, setTheirGender] = useState('');
+    const [theirGender, setTheirGender] = useState('any');
 
-    const [myGender, setMyGender] = useState('');
+    const [myGender, setMyGender] = useState('any');
 
     const [toAge, setToAge] = useState(null);
 
@@ -66,11 +66,7 @@ function Home(props) {
 
         e.stopPropagation();
         e.preventDefault();
-
-        const fromBirthdate_s = getPastDateISO(toAge);
-
-        const toBirthdate_s = getPastDateISO(fromAge);
-
+       
         const params_o = {
             fields: 'firstname,lastname,country'
         };
@@ -83,15 +79,15 @@ function Home(props) {
             params_o.tobirthdate = getPastDateISO(fromAge);
         }
 
-        if(myGender !== 'Choose+gender') {
+        if(myGender !== 'any') {
             params_o.mygender = myGender;
         }
 
-        if(theirGender !== 'Choose+gender') {
+        if(theirGender !== 'any') {
             params_o.theirgender = theirGender;
         }
 
-        if(country !== 'Any') {
+        if(country !== 'any') {
             params_o.country = country;
         }
         
@@ -301,7 +297,7 @@ function Home(props) {
 
                                         <Form.Select size='sm' onChange={(e) => setMyGender(e.target.value)}>
 
-                                            <option>Choose gender</option>
+                                            <option value="any">Choose gender</option>
 
                                             <option value="male">Male</option>
 
@@ -325,7 +321,7 @@ function Home(props) {
 
                                         <Form.Select size="sm" onChange={(e) => setTheirGender(e.target.value)}>
 
-                                            <option>Choose gender</option>
+                                            <option value="any">Any gender</option>
 
                                             <option value="male">Male</option>
 

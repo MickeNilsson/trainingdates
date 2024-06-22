@@ -112,6 +112,17 @@ ul {
     white-space: nowrap;
 }
 
+.search-result-item:not(:first-child) {
+    border-top: 1px solid #ccc;
+    clear: both; 
+    padding-top: 10px;
+}
+
+.search-result-img {
+    width: 130px;
+    float: left;
+}
+
 .top {
     background-position: center;
     background-size: cover;

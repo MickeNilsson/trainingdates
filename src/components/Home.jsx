@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import { Badge, Button, Card, Col, Container, Form, Image, Modal, Pagination, Row } from 'react-bootstrap';
 import EditPictureModal from './EditPictureModal';
 import arnold from '../assets/arnold.jpg';
@@ -13,7 +13,13 @@ function Home(props) {
 
     const [country, setCountry] = useState('any');
 
+    const [searchResults, setSearchResults] = useState([]);
+
+    const [showColumns, setShowColumns] = useState(false)
+
     const [showModal, setShowModal] = useState(false);
+
+    const [showSearchResults, setShowSearchResults] = useState(false);
 
     const [theirGender, setTheirGender] = useState('any');
 
@@ -29,7 +35,7 @@ function Home(props) {
 
         const ages_a = [];
 
-        for(let age_i = 18; age_i < 100; ++age_i) {
+        for (let age_i = 18; age_i < 100; ++age_i) {
 
             ages_a.push(age_i);
         }
@@ -66,47 +72,48 @@ function Home(props) {
 
         e.stopPropagation();
         e.preventDefault();
-
+debugger;
         const params_o = {
             fields: 'firstname,lastname,country',
             mygender: member.gender
         };
 
-        if(toAge) {
+        if (toAge) {
             params_o.frombirthdate = getPastDateISO(toAge);
         }
 
-        if(fromAge) {
+        if (fromAge) {
             params_o.tobirthdate = getPastDateISO(fromAge);
         }
 
-        if(theirGender !== 'any') {
+        if (theirGender !== 'any') {
             params_o.theirgender = theirGender;
         }
 
-        if(country !== 'any') {
+        if (country !== 'any') {
             params_o.country = country;
         }
-        
+
         axios.get('https://healthysingles4you2.com/api/members/', {
             params: params_o
         })
-        .then(function (response_o) {
+            .then(function (response_o) {
 
-            if (response_o.status === 200) {
-       
-                alert(JSON.stringify(response_o.data));
-            }
-        });
+                if (response_o.status === 200) {
+                    debugger;
+                    setSearchResults(response_o.data);
+                    setShowSearchResults(true);
+                }
+            });
     }
 
     function getPastDateISO(yearsInPast) {
         // Get the current date
         const currentDate = new Date();
-    
+
         // Subtract the specified number of years from the current date
         currentDate.setFullYear(currentDate.getFullYear() - yearsInPast);
-    
+
         // Return the date as an ISO string
         return currentDate.toISOString().substring(0, 10);
     }
@@ -122,7 +129,7 @@ function Home(props) {
 
             <Row xs={1} sm={1} md={1} lg={3}>
 
-                <Col className='mb-3'>
+                {!showSearchResults && <><Col className='mb-3'>
 
                     <Card style={{ height: '376px' }}>
 
@@ -136,7 +143,7 @@ function Home(props) {
 
                             <div className='d-block'>
 
-                                <Image onClick={updateProfilePicture} style={{cursor: 'pointer', width: '130px', display: 'inline-block', float: 'left' }} src={'https://healthysingles4you2.com/api/profilepictures/?id=' + member.id + '&gender=' + member.gender + '&cachebuster=' + Math.random()} rounded />
+                                <Image onClick={updateProfilePicture} style={{ cursor: 'pointer', width: '130px', display: 'inline-block', float: 'left' }} src={'https://healthysingles4you2.com/api/profilepictures/?id=' + member.id + '&gender=' + member.gender + '&cachebuster=' + Math.random()} rounded />
 
                                 <div className='d-grid ps-2'>
 
@@ -196,71 +203,141 @@ function Home(props) {
 
                 </Col>
 
-                <Col className='mb-3'>
+                    <Col className='mb-3'>
+
+                        <Card style={{ height: '376px' }}>
+
+                            <Card.Header className='card-headerx'>
+
+                                Recent happenings
+
+                            </Card.Header>
+
+                            <Card.Body className='overflow-auto'>
+
+                                <div className='border-bottom pb-3'>
+
+                                    <Image style={{ width: '130px', display: 'inline-block', float: 'left' }} src={woman} rounded />
+
+                                    <div className='d-grid ps-2'>
+
+                                        <h6 className='fw-bold mb-0 fs-6 text'>Jane Doe (25)</h6>
+
+                                        <p>Stockholm, Sweden</p>
+
+                                        <p>Sent you a message 3 hours ago</p>
+
+                                    </div>
+
+                                </div>
+
+                                <div className='border-bottom pb-3 pt-3'>
+
+                                    <Image style={{ width: '130px', display: 'inline-block', float: 'left' }} src={woman} rounded />
+
+                                    <div className='d-grid ps-2'>
+
+                                        <h6 className='fw-bold mb-0 fs-6 text'>Jane Doe (25)</h6>
+
+                                        <p>Stockholm, Sweden</p>
+
+                                        <p>Sent you a message 3 hours ago</p>
+
+                                    </div>
+
+                                </div>
+
+                                <div className='pb-3 pt-3'>
+
+                                    <Image style={{ width: '130px', display: 'inline-block', float: 'left' }} src={woman} rounded />
+
+                                    <div className='d-grid ps-2'>
+
+                                        <h6 className='fw-bold mb-0 fs-6 text'>Jane Doe (25)</h6>
+
+                                        <p>Stockholm, Sweden</p>
+
+                                        <p>Sent you a message 3 hours ago</p>
+
+                                    </div>
+
+                                </div>
+
+                            </Card.Body>
+
+                        </Card>
+
+                    </Col></>}
+
+                {showSearchResults && <Col lg={8} className='mb-3'>
 
                     <Card style={{ height: '376px' }}>
 
                         <Card.Header className='card-headerx'>
 
-                            Recent happenings
+                            Search results <span onClick={() => setShowSearchResults(false)} style={{float: 'right'}}><i className='bi bi-x-lg' style={{ cursor: 'pointer' }}></i></span>
 
                         </Card.Header>
 
                         <Card.Body className='overflow-auto'>
 
-                            <div className='border-bottom pb-3'>
-
-                                <Image style={{ width: '130px', display: 'inline-block', float: 'left' }} src={woman} rounded />
-
-                                <div className='d-grid ps-2'>
-
-                                    <h6 className='fw-bold mb-0 fs-6 text'>Jane Doe (25)</h6>
-
-                                    <p>Stockholm, Sweden</p>
-
-                                    <p>Sent you a message 3 hours ago</p>
-
+                            {searchResults.map(person_o => (
+                                <div key={person_o.id} className='search-result-item'>
+                                    <Image className='search-result-img' src={woman} rounded />
+                                    <p>{person_o.firstname} {person_o.lastname}</p>
+                                    <p>Storgatan 1, Stockholm</p>
                                 </div>
+                            ))}
 
-                            </div>
 
-                            <div className='border-bottom pb-3 pt-3'>
+                            {/* <div style={{clear: 'both', borderTop: '1px solid #ccc',marginBottom:'10px'}}></div>
 
-                                <Image style={{ width: '130px', display: 'inline-block', float: 'left' }} src={woman} rounded />
+        <div style={{borderBottom: '1px solid grey'}}>
+        <Image style={{ width: '130px', display: 'inline-block', float: 'left' }} src={woman} rounded />
+            <p>Kalle Karlsson</p>
+        </div>
 
-                                <div className='d-grid ps-2'>
+        <div style={{borderBottom: '1px solid grey'}}>
+            <p>Kalle Karlsson</p>
+        </div> */}
 
-                                    <h6 className='fw-bold mb-0 fs-6 text'>Jane Doe (25)</h6>
+                            {/*  <div className='border-bottom pb-3'>
 
-                                    <p>Stockholm, Sweden</p>
+            <Image style={{ width: '130px', display: 'inline-block', float: 'left' }} src={woman} rounded />
 
-                                    <p>Sent you a message 3 hours ago</p>
+            <div className='d-grid ps-2'>
 
-                                </div>
+                <h6 className='fw-bold mb-0 fs-6 text'>Jane Doe (25)</h6>
 
-                            </div>
+                <p>Stockholm, Sweden</p>
 
-                            <div className='pb-3 pt-3'>
+                <p>Sent you a message 3 hours ago</p>
 
-                                <Image style={{ width: '130px', display: 'inline-block', float: 'left' }} src={woman} rounded />
+            </div>
 
-                                <div className='d-grid ps-2'>
+        </div>
 
-                                    <h6 className='fw-bold mb-0 fs-6 text'>Jane Doe (25)</h6>
+        <div className='border-bottom pb-3'>
 
-                                    <p>Stockholm, Sweden</p>
+            <Image style={{ width: '130px', display: 'inline-block', float: 'left' }} src={woman} rounded />
 
-                                    <p>Sent you a message 3 hours ago</p>
+            <div className='d-grid ps-2'>
 
-                                </div>
+                <h6 className='fw-bold mb-0 fs-6 text'>Jane Doe (25)</h6>
 
-                            </div>
+                <p>Stockholm, Sweden</p>
+
+                <p>Sent you a message 3 hours ago</p>
+
+            </div>
+
+        </div> */}
 
                         </Card.Body>
 
                     </Card>
 
-                </Col>
+                </Col>}
 
                 <Col className='mb-3'>
 
@@ -387,7 +464,7 @@ function Home(props) {
 
                                         <Form.Select size='sm' onChange={(e) => setCountry(e.target.value)}>
 
-                                            <option>Any</option>
+                                            <option value='any'>Any</option>
 
                                             {countries.map(country_s => <option key={country_s} value={country_s}>{country_s}</option>)}
 
@@ -425,13 +502,13 @@ function Home(props) {
                                 <div className='d-grid gap-2'>
 
                                     <Button
-                                            onClick={search}
-                                            size='sm' 
-                                            type='submit' 
-                                            variant='success'>
+                                        onClick={search}
+                                        size='sm'
+                                        type='submit'
+                                        variant='success'>
                                         Search
                                     </Button>
-                                       
+
 
                                 </div>
 

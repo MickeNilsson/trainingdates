@@ -72,9 +72,9 @@ function Home(props) {
 
         e.stopPropagation();
         e.preventDefault();
-debugger;
+
         const params_o = {
-            fields: 'firstname,lastname,country',
+            fields: 'firstname,lastname,country,birthdate',
             mygender: member.gender
         };
 
@@ -121,6 +121,15 @@ debugger;
     function updateProfilePicture() {
 
         setShowModal(true);
+    }
+
+    function calculateAge(isoDate_s) {
+
+        const birthDate = new Date(isoDate_s);
+        const currentDate = new Date();
+        const difference = currentDate - birthDate;
+        const currentAge = Math.floor(difference / 31557600000); // Divide by 1000*60*60*24*365.25
+        return currentAge;
     }
 
     return (
@@ -284,8 +293,8 @@ debugger;
                             {searchResults.map(person_o => (
                                 <div key={person_o.id} className='search-result-item'>
                                     <Image className='search-result-img' src={woman} rounded />
-                                    <p>{person_o.firstname} {person_o.lastname}</p>
-                                    <p>Storgatan 1, Stockholm</p>
+                                    <p>{person_o.firstname} {person_o.lastname} ({calculateAge(person_o.birthdate)})</p>
+                                    <p>{person_o.country}</p>
                                 </div>
                             ))}
 

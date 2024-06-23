@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Badge, Button, Card, Col, Container, Form, Image, Modal, Pagination, Row } from 'react-bootstrap';
 import EditPictureModal from './EditPictureModal';
 import arnold from '../assets/arnold.jpg';
@@ -32,6 +32,8 @@ function Home(props) {
     const [fromAge, setFromAge] = useState(null);
 
     const member = props.member;
+
+    const searchResultRef = useRef();
 
     useEffect(() => {
 
@@ -106,7 +108,7 @@ function Home(props) {
                     setSearchResults(response_o.data);
                     setShowSearchResults(true);
                     window.scrollTo(0, 0);
-                    //document.getElementById('search-results').scrollTo(0, 0);
+                    searchResultRef.current.scrollTo(0, 0);
                 }
             });
     }
@@ -292,7 +294,7 @@ function Home(props) {
 
                         </Card.Header>
 
-                        <Card.Body id='search-results' className='overflow-auto'>
+                        <Card.Body ref={searchResultRef} className='overflow-auto'>
 
                             {searchResults.map(person_o => (
                                 <div key={person_o.id} className='search-result-item' onClick={() => props.setPage(<OtherMemberHome person={person_o} />)}>

@@ -56,7 +56,7 @@ ul {
     color: yellow;
 }
 
-.card-headerx {
+.card-header {
     background-image: linear-gradient(#46c1bb, #02524f);
     color: white;
     /* padding: 5px; */
@@ -119,8 +119,10 @@ ul {
 }
 
 .search-result-img {
-    width: 130px;
+    width: 100px;
     float: left;
+    padding-bottom: 10px;
+    padding-right: 10px;
 }
 
 .top {

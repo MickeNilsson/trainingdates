@@ -3,6 +3,7 @@ import { Badge, Button, Card, Col, Container, Form, Image, Modal, Pagination, Ro
 import EditPictureModal from './EditPictureModal';
 import arnold from '../assets/arnold.jpg';
 import woman from '../assets/woman.jpg';
+import man from '../assets/man.jpg';
 import axios from 'axios';
 
 function Home(props) {
@@ -74,7 +75,7 @@ function Home(props) {
         e.preventDefault();
 
         const params_o = {
-            fields: 'firstname,lastname,country,birthdate',
+            fields: 'firstname,lastname,country,birthdate,gender',
             mygender: member.gender
         };
 
@@ -103,6 +104,8 @@ function Home(props) {
                     debugger;
                     setSearchResults(response_o.data);
                     setShowSearchResults(true);
+                    window.scrollTo(0, 0);
+                    document.getElementById('search-results').scrollTo(0, 0);
                 }
             });
     }
@@ -142,7 +145,7 @@ function Home(props) {
 
                     <Card style={{ height: '376px' }}>
 
-                        <Card.Header className='card-headerx'>
+                        <Card.Header className='card-header'>
 
                             Hi {member.firstname}!
 
@@ -216,7 +219,7 @@ function Home(props) {
 
                         <Card style={{ height: '376px' }}>
 
-                            <Card.Header className='card-headerx'>
+                            <Card.Header className='card-header'>
 
                                 Recent happenings
 
@@ -282,17 +285,17 @@ function Home(props) {
 
                     <Card style={{ height: '376px' }}>
 
-                        <Card.Header className='card-headerx'>
+                        <Card.Header className='card-header'>
 
                             Search results <span onClick={() => setShowSearchResults(false)} style={{float: 'right'}}><i className='bi bi-x-lg' style={{ cursor: 'pointer' }}></i></span>
 
                         </Card.Header>
 
-                        <Card.Body className='overflow-auto'>
+                        <Card.Body id='search-results' className='overflow-auto'>
 
                             {searchResults.map(person_o => (
                                 <div key={person_o.id} className='search-result-item'>
-                                    <Image className='search-result-img' src={woman} rounded />
+                                    <Image className='search-result-img' src={person_o.gender === 'male' ? man : woman} rounded />
                                     <p>{person_o.firstname} {person_o.lastname} ({calculateAge(person_o.birthdate)})</p>
                                     <p>{person_o.country}</p>
                                 </div>
@@ -352,7 +355,7 @@ function Home(props) {
 
                     <Card>
 
-                        <Card.Header className='card-headerx'>
+                        <Card.Header className='card-header'>
 
                             Search
 
@@ -537,7 +540,7 @@ function Home(props) {
 
                     <Card>
 
-                        <Card.Header className='card-headerx'>
+                        <Card.Header className='card-header'>
 
                             Online: 1435
 

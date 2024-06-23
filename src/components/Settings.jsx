@@ -313,7 +313,7 @@ export default function Settings({ member, setMember, setPage }) {
 
                     <Card>
 
-                        <Card.Header className='card-headerx'>
+                        <Card.Header className='card-header'>
 
                             Settings
 

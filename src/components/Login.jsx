@@ -49,7 +49,7 @@ export default function Login(props) {
                 
                 props.setMember({...response_o.data.data, isLoggedIn: true});
                 
-                props.setPage(<Home member={response_o.data.data} />);
+                props.setPage(<Home member={response_o.data.data} setPage={props.setPage} />);
 
             } else {
 

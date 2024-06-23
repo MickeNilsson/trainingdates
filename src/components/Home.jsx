@@ -5,6 +5,7 @@ import arnold from '../assets/arnold.jpg';
 import woman from '../assets/woman.jpg';
 import man from '../assets/man.jpg';
 import axios from 'axios';
+import OtherMemberHome from './OtherMemberHome';
 
 function Home(props) {
 
@@ -101,11 +102,11 @@ function Home(props) {
             .then(function (response_o) {
 
                 if (response_o.status === 200) {
-                    debugger;
+                    
                     setSearchResults(response_o.data);
                     setShowSearchResults(true);
                     window.scrollTo(0, 0);
-                    document.getElementById('search-results').scrollTo(0, 0);
+                    //document.getElementById('search-results').scrollTo(0, 0);
                 }
             });
     }
@@ -294,7 +295,7 @@ function Home(props) {
                         <Card.Body id='search-results' className='overflow-auto'>
 
                             {searchResults.map(person_o => (
-                                <div key={person_o.id} className='search-result-item'>
+                                <div key={person_o.id} className='search-result-item' onClick={() => props.setPage(<OtherMemberHome person={person_o} />)}>
                                     <Image className='search-result-img' src={person_o.gender === 'male' ? man : woman} rounded />
                                     <p>{person_o.firstname} {person_o.lastname} ({calculateAge(person_o.birthdate)})</p>
                                     <p>{person_o.country}</p>

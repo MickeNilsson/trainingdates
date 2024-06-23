@@ -29,6 +29,15 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
         $sql_s .= 'FROM hs4u2_member';
 
+        if(!empty($_GET['id'])) {
+
+            $id_s = $_GET['id'];
+
+            array_push($whereClauses_a, 'id = :id');
+
+            $params_a['id'] = $id_s;
+        }
+
         if(!empty($_GET['frombirthdate'])) {
 
             $frombirthdate_s = $_GET['frombirthdate'];
